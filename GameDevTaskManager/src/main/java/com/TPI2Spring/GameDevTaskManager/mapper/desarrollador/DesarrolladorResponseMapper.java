@@ -6,4 +6,5 @@ import com.TPI2Spring.GameDevTaskManager.model.dto.desarrollador.DesarrolladorRe
 public interface DesarrolladorResponseMapper {
     
     DesarrolladorResponseDTO desarrolladorToDesarrolladorResponseDTO(Desarrollador desarrollador);
+    Desarrollador desarrolladorResponseDtoToDesarollador(DesarrolladorResponseDTO desarrollador);
 }

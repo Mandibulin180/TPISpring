@@ -17,5 +17,15 @@ public class DesarrolladorResponseMapperImpl implements DesarrolladorResponseMap
         .rol(desarrollador.getRol())
         .build();
     }
+
+    @Override
+    public Desarrollador desarrolladorResponseDtoToDesarollador(DesarrolladorResponseDTO desarrollador){
+        return Desarrollador.builder()
+        .nombre(desarrollador.getNombre())
+        .correoElectronico(desarrollador.getCorreoElectronico())
+        .rol(desarrollador.getRol())
+        .juegoAsignado(null)
+        .build();
+    }
     
 }
