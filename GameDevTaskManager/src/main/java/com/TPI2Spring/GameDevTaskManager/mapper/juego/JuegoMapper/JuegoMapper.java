@@ -1,4 +1,4 @@
-package com.TPI2Spring.GameDevTaskManager.mapper.juego;
+package com.TPI2Spring.GameDevTaskManager.mapper.juego.JuegoMapper;
 
 
 import com.TPI2Spring.GameDevTaskManager.domain.Juego;

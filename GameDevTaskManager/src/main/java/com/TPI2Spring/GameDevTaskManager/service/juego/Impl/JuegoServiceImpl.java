@@ -2,27 +2,24 @@ package com.TPI2Spring.GameDevTaskManager.service.juego.Impl;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.springframework.stereotype.Service;
-
 import com.TPI2Spring.GameDevTaskManager.domain.Juego;
-import com.TPI2Spring.GameDevTaskManager.mapper.juego.JuegoMapper;
-import com.TPI2Spring.GameDevTaskManager.mapper.juego.JuegoResponseMapper;
+import com.TPI2Spring.GameDevTaskManager.mapper.juego.JuegoResponseMapper.JuegoResponseMapper;
 import com.TPI2Spring.GameDevTaskManager.model.dto.juego.JuegoDTO;
 import com.TPI2Spring.GameDevTaskManager.model.dto.juego.JuegoResponseDTO;
 import com.TPI2Spring.GameDevTaskManager.repository.JuegoRepository;
 import com.TPI2Spring.GameDevTaskManager.service.juego.JuegoService;
-
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class JuegoServiceImpl implements JuegoService {
 
-    final JuegoMapper juegoMapper;
+    final com.TPI2Spring.GameDevTaskManager.mapper.juego.JuegoMapper.JuegoMapper juegoMapper;
     final JuegoRepository juegoRepository;
     final JuegoResponseMapper juegoResponseMapper;
     
@@ -51,4 +48,33 @@ public class JuegoServiceImpl implements JuegoService {
 
         return Optional.empty();
     }
+
+    @Override
+    public List<JuegoResponseDTO> getJuegosFinalizados(String estado){
+        List<JuegoResponseDTO> juegosFinalizados = new ArrayList<>();
+        List<JuegoResponseDTO> juegosEnDesarrollor = new ArrayList<>();
+
+        listarEstados(juegosFinalizados, juegosEnDesarrollor);
+
+        if(estado.equals("finalizado")){
+            return juegosFinalizados;
+        }if(estado.equals("pendiente")){
+            return juegosEnDesarrollor;
+        }
+
+        return null;
+    }
+
+    private void listarEstados(List<JuegoResponseDTO> juegosFinalizados,List<JuegoResponseDTO> juegosEnDesarrollo){
+        Date fechaActual = new Date();
+        for (JuegoResponseDTO juego: getAllJuegos()){
+            Date fechajuego = new Date(juego.getFechaDeLanzamiento().getTime());
+            if(fechajuego.before(fechaActual)){
+                juegosFinalizados.add(juego);
+            }else{
+                juegosEnDesarrollo.add(juego);
+                }
+        }
+    }
+
 }

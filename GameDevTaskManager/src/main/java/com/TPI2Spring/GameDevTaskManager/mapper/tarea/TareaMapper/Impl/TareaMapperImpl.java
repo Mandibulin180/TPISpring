@@ -5,8 +5,6 @@ import com.TPI2Spring.GameDevTaskManager.domain.Tarea;
 import com.TPI2Spring.GameDevTaskManager.mapper.tarea.TareaMapper.TareaMapper;
 import com.TPI2Spring.GameDevTaskManager.model.dto.tarea.TareaDTO;
 
-import ch.qos.logback.core.subst.Token.Type;
-
 @Component
 public class TareaMapperImpl implements TareaMapper {
 

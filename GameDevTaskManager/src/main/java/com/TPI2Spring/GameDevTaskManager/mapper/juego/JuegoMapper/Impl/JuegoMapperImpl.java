@@ -1,8 +1,8 @@
-package com.TPI2Spring.GameDevTaskManager.mapper.juego.Impl;
+package com.TPI2Spring.GameDevTaskManager.mapper.juego.JuegoMapper.Impl;
 
 import org.springframework.stereotype.Component;
 import com.TPI2Spring.GameDevTaskManager.domain.Juego;
-import com.TPI2Spring.GameDevTaskManager.mapper.juego.JuegoMapper;
+import com.TPI2Spring.GameDevTaskManager.mapper.juego.JuegoMapper.JuegoMapper;
 import com.TPI2Spring.GameDevTaskManager.model.dto.juego.JuegoDTO;
 
 @Component

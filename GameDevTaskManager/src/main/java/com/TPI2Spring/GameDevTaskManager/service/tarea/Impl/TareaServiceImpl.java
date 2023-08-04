@@ -102,8 +102,19 @@ public class TareaServiceImpl implements TareaService {
     public List<TareaDTO> searchTareaPorEstadoOFechaLimite(Estado estado,Date fechaLimite){
         Optional<List<Tarea>> tareas = tareaRepository.findTareaByEstadoOrFechaLimite(estado, fechaLimite);
         List<TareaDTO> listaDeTareas = new ArrayList<>();
+        List<TareaDTO> listaDeTareasVencidas = new ArrayList<>();
+        Date fechaActual = new Date();
         for(Tarea tarea:tareas.get()){
-            listaDeTareas.add(tareaMapper.tareaToTareaDto(tarea));
+            listaDeTareas.add(tareaMapper.tareaToTareaDto(tarea));  
+        }
+
+        if((estado!=null&&estado != Estado.COMPLETADA) && (fechaLimite!=null&&fechaLimite.before(fechaActual))){
+            for(TareaDTO tarea: listaDeTareas){
+                if(tarea.getEstado() != Estado.COMPLETADA){
+                    listaDeTareasVencidas.add(tarea);
+                }
+            }
+            return listaDeTareasVencidas;
         }
 
         return listaDeTareas;

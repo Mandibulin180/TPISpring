@@ -1,6 +1,5 @@
 package com.TPI2Spring.GameDevTaskManager.controller;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.TPI2Spring.GameDevTaskManager.domain.Estado;
 import com.TPI2Spring.GameDevTaskManager.domain.Tarea;
 import com.TPI2Spring.GameDevTaskManager.exceptions.NotFoundException;
@@ -25,12 +23,9 @@ import com.TPI2Spring.GameDevTaskManager.model.dto.tarea.TareaDTO;
 import com.TPI2Spring.GameDevTaskManager.model.dto.tarea.TareaResponseDTO;
 import com.TPI2Spring.GameDevTaskManager.service.tarea.TareaService;
 
-import lombok.extern.slf4j.Slf4j;
-
 
 @RestController
 @RequestMapping("/api/v1/tarea")
-@Slf4j
 public class TareaController {
     
     TareaService tareaService;
@@ -43,7 +38,7 @@ public class TareaController {
     @PostMapping()
     public ResponseEntity createTarea(@RequestBody TareaDTO tareaDTO)throws NotFoundException{
         tareaService.createTarea(tareaDTO);
-
+        
         return new ResponseEntity<>("Tarea Creada!",HttpStatus.CREATED);
     }
 
@@ -66,25 +61,15 @@ public class TareaController {
     @GetMapping()
     public ResponseEntity getTareaByEstadoOrFechaLimite(@RequestParam(required = false)Estado estado,@RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaLimite){
         List<TareaDTO> listaDeTareas = tareaService.searchTareaPorEstadoOFechaLimite(estado, fechaLimite);
-        List<TareaDTO> listaDeTareasVencidas = new ArrayList<>();
         
         if(estado == null && fechaLimite == null){
             return new ResponseEntity<>("Debes ingresar ya sea un estado o una fecha limite",HttpStatus.BAD_REQUEST);
-        }
-        Date fechaActual = new Date();
-        if((estado!=null&&estado != Estado.COMPLETADA) && (fechaLimite!=null&&fechaLimite.before(fechaActual))){
-            for(TareaDTO tarea: listaDeTareas){
-                if(tarea.getEstado() != Estado.COMPLETADA){
-                    listaDeTareasVencidas.add(tarea);
-                }
-            }
-            return new ResponseEntity<>(listaDeTareasVencidas,HttpStatus.OK);
         }
 
         return new ResponseEntity<>(listaDeTareas,HttpStatus.OK);
     }
 
-    @GetMapping("/tareasDeJuego/{idJuego}")
+    @GetMapping("/tareasDeJuego {idJuego}")
     public ResponseEntity getTareaByJuego(@PathVariable(value = "idJuego")UUID idJuego){
         List<TareaResponseDTO> listaDeTareas = tareaService.searchTareasPorJuego(idJuego);
 

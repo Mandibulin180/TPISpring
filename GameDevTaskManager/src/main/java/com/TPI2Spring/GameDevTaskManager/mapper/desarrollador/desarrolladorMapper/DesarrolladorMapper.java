@@ -1,4 +1,4 @@
-package com.TPI2Spring.GameDevTaskManager.mapper.desarrollador;
+package com.TPI2Spring.GameDevTaskManager.mapper.desarrollador.desarrolladorMapper;
 
 import com.TPI2Spring.GameDevTaskManager.domain.Desarrollador;
 import com.TPI2Spring.GameDevTaskManager.model.dto.desarrollador.DesarrolladorDTO;

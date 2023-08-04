@@ -1,12 +1,12 @@
-package com.TPI2Spring.GameDevTaskManager.mapper.juego.Impl;
+package com.TPI2Spring.GameDevTaskManager.mapper.juego.JuegoResponseMapper.Impl;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import com.TPI2Spring.GameDevTaskManager.domain.Desarrollador;
 import com.TPI2Spring.GameDevTaskManager.domain.Juego;
-import com.TPI2Spring.GameDevTaskManager.mapper.desarrollador.DesarrolladorResponseMapper;
-import com.TPI2Spring.GameDevTaskManager.mapper.juego.JuegoResponseMapper;
+import com.TPI2Spring.GameDevTaskManager.mapper.desarrollador.desarrolladorResponseMapper.DesarrolladorResponseMapper;
+import com.TPI2Spring.GameDevTaskManager.mapper.juego.JuegoResponseMapper.JuegoResponseMapper;
 import com.TPI2Spring.GameDevTaskManager.model.dto.desarrollador.DesarrolladorResponseDTO;
 import com.TPI2Spring.GameDevTaskManager.model.dto.juego.JuegoResponseDTO;
 import lombok.AllArgsConstructor;
