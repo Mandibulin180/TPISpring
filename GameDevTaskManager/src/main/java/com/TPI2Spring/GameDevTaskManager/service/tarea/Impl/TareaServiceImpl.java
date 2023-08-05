@@ -6,15 +6,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
+import com.TPI2Spring.GameDevTaskManager.exceptions.NotFoundException;
 import com.TPI2Spring.GameDevTaskManager.domain.Desarrollador;
 import com.TPI2Spring.GameDevTaskManager.domain.Estado;
 import com.TPI2Spring.GameDevTaskManager.domain.Juego;
 import com.TPI2Spring.GameDevTaskManager.domain.Tarea;
-import com.TPI2Spring.GameDevTaskManager.exceptions.NotFoundException;
 import com.TPI2Spring.GameDevTaskManager.mapper.tarea.TareaMapper.TareaMapper;
 import com.TPI2Spring.GameDevTaskManager.mapper.tarea.TareaResponseMapper.TareaResponseMapper;
 import com.TPI2Spring.GameDevTaskManager.model.dto.tarea.TareaDTO;
 import com.TPI2Spring.GameDevTaskManager.model.dto.tarea.TareaResponseDTO;
+import com.TPI2Spring.GameDevTaskManager.model.dto.tarea.TareaUpdateDTO;
 import com.TPI2Spring.GameDevTaskManager.repository.DesarroladorRepository;
 import com.TPI2Spring.GameDevTaskManager.repository.JuegoRepository;
 import com.TPI2Spring.GameDevTaskManager.repository.TareaRepository;
@@ -68,19 +69,19 @@ public class TareaServiceImpl implements TareaService {
     }
 
     @Override
-    public Optional<Tarea> updateTarea(UUID idTarea,TareaDTO tareaDTO){
+    public Optional<Tarea> updateTarea(UUID idTarea,TareaUpdateDTO tareaDTO){
         
         Optional<Tarea> tareaOptional = tareaRepository.findById(idTarea);
 
         if(tareaOptional.isPresent()){
-            updatingTarea(tareaOptional.get(),tareaDTO);
+            updatingTarea(tareaOptional.get(),tareaDTO); 
             return Optional.of(tareaRepository.save(tareaOptional.get()));
         }
         
         return Optional.empty();
     }
 
-    private void updatingTarea(Tarea tarea,TareaDTO tareaDto){
+    private void updatingTarea(Tarea tarea,TareaUpdateDTO tareaDto){
         if(tareaDto.getDescripcion() != null){
             tarea.setDescripcion(tareaDto.getDescripcion());
         }

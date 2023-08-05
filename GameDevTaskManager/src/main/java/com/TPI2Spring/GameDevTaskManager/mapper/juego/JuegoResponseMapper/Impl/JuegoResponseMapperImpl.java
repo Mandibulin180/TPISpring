@@ -1,6 +1,8 @@
 package com.TPI2Spring.GameDevTaskManager.mapper.juego.JuegoResponseMapper.Impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import com.TPI2Spring.GameDevTaskManager.domain.Desarrollador;

@@ -56,9 +56,9 @@ public class JuegoServiceImpl implements JuegoService {
 
         listarEstados(juegosFinalizados, juegosEnDesarrollor);
 
-        if(estado.equals("finalizado")){
+        if(estado.equalsIgnoreCase("finalizado")){
             return juegosFinalizados;
-        }if(estado.equals("pendiente")){
+        }if(estado.equalsIgnoreCase("pendiente")){
             return juegosEnDesarrollor;
         }
 
@@ -67,12 +67,12 @@ public class JuegoServiceImpl implements JuegoService {
 
     private void listarEstados(List<JuegoResponseDTO> juegosFinalizados,List<JuegoResponseDTO> juegosEnDesarrollo){
         Date fechaActual = new Date();
-        for (JuegoResponseDTO juego: getAllJuegos()){
+        for (Juego juego: juegoRepository.findAll()){
             Date fechajuego = new Date(juego.getFechaDeLanzamiento().getTime());
             if(fechajuego.before(fechaActual)){
-                juegosFinalizados.add(juego);
+                juegosFinalizados.add(juegoResponseMapper.juegoToJuegoResponseDTO(juego));
             }else{
-                juegosEnDesarrollo.add(juego);
+                juegosEnDesarrollo.add(juegoResponseMapper.juegoToJuegoResponseDTO(juego));
                 }
         }
     }

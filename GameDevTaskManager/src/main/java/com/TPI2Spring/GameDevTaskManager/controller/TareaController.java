@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,9 @@ import com.TPI2Spring.GameDevTaskManager.domain.Tarea;
 import com.TPI2Spring.GameDevTaskManager.exceptions.NotFoundException;
 import com.TPI2Spring.GameDevTaskManager.model.dto.tarea.TareaDTO;
 import com.TPI2Spring.GameDevTaskManager.model.dto.tarea.TareaResponseDTO;
+import com.TPI2Spring.GameDevTaskManager.model.dto.tarea.TareaUpdateDTO;
 import com.TPI2Spring.GameDevTaskManager.service.tarea.TareaService;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 @RestController
@@ -36,7 +39,7 @@ public class TareaController {
     }
 
     @PostMapping()
-    public ResponseEntity createTarea(@RequestBody TareaDTO tareaDTO)throws NotFoundException{
+    public ResponseEntity createTarea(@Validated @RequestBody TareaDTO tareaDTO)throws NotFoundException{
         tareaService.createTarea(tareaDTO);
         
         return new ResponseEntity<>("Tarea Creada!",HttpStatus.CREATED);
@@ -49,7 +52,7 @@ public class TareaController {
     } 
 
     @PutMapping("/{idTarea}")
-    public ResponseEntity updateTarea(@PathVariable(value = "idTarea")UUID idTarea,@RequestBody TareaDTO tareaDto){
+    public ResponseEntity updateTarea(@PathVariable(value = "idTarea")UUID idTarea, @RequestBody TareaUpdateDTO tareaDto){
         Optional<Tarea> tareaOptional = tareaService.updateTarea(idTarea, tareaDto);
         if(tareaOptional.isEmpty()){
             return new ResponseEntity<>("Tarea no encontrada",HttpStatus.NOT_FOUND); 
@@ -59,7 +62,7 @@ public class TareaController {
     }
 
     @GetMapping()
-    public ResponseEntity getTareaByEstadoOrFechaLimite(@RequestParam(required = false)Estado estado,@RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaLimite){
+    public ResponseEntity getTareaByEstadoOrFechaLimite(@RequestParam(required = false)Estado estado,@RequestParam(required = false)@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy") Date fechaLimite){
         List<TareaDTO> listaDeTareas = tareaService.searchTareaPorEstadoOFechaLimite(estado, fechaLimite);
         
         if(estado == null && fechaLimite == null){
