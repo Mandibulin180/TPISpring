@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import lombok.AllArgsConstructor;
 import lombok.Builder.Default;
 import lombok.experimental.SuperBuilder;
@@ -25,12 +26,12 @@ public class Juego extends Identifier {
     private String titulo;
     @Column(length = 200,columnDefinition = "Varchar(200)",updatable = true,nullable = false)
     private String descripción;
-    @OneToMany(mappedBy = "juegoDeLaTarea")
+    @OneToMany(mappedBy = "juegoDeLaTarea",fetch = FetchType.EAGER)
     @Default
     @Column
     private List<Tarea> tareas = new ArrayList<>();
     @Default
-    @OneToMany(mappedBy = "juegoAsignado")
+    @OneToMany(mappedBy = "juegoAsignado",fetch = FetchType.EAGER)
     private List<Desarrollador> desarrolladores = new ArrayList<>();
     @Column(columnDefinition = "Date",nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")

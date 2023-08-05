@@ -2,6 +2,7 @@ package com.TPI2Spring.GameDevTaskManager.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -49,14 +50,21 @@ public class JuegoController {
     }
 
     @GetMapping("/{idJuego}")
-    public ResponseEntity getDatosDesarrollador(@PathVariable(value = "idJuego")UUID idjuego)throws NotFoundException{
-        JuegoResponseDTO juegoResponseDTO = juegoService.getJuego(idjuego).orElseThrow(NotFoundException::new);
-        List<DesarrolladorResponseDTO> listaDesarrolladores = new ArrayList<>();
-        for(DesarrolladorResponseDTO desarrollador: juegoResponseDTO.getDesarrolladores()){
-            listaDesarrolladores.add(desarrollador);
+    public ResponseEntity getDatosDesarrollador(@PathVariable(value = "idJuego")UUID idjuego){
+        Optional<JuegoResponseDTO> juegoResponseDTO = juegoService.getJuego(idjuego);
+        if(juegoResponseDTO.isPresent()){
+            List<DesarrolladorResponseDTO> listaDesarrolladores = new ArrayList<>();
+            for(DesarrolladorResponseDTO desarrollador: juegoResponseDTO.get().getDesarrolladores()){
+                listaDesarrolladores.add(desarrollador);
+            }
+            if(listaDesarrolladores.isEmpty()){
+                
+                return new ResponseEntity<>("No se han asignado desarrolladores a este juego",HttpStatus.NOT_FOUND);
+            }
+
+            return new ResponseEntity<>(listaDesarrolladores,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("No se encuentra ningun juego con ese id",HttpStatus.NOT_FOUND);
         }
-        if(listaDesarrolladores.isEmpty()){
-            return new ResponseEntity<>("No se han asignado desarrolladores a este juego",HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(listaDesarrolladores,HttpStatus.OK);
-    }}
+    }
+}
