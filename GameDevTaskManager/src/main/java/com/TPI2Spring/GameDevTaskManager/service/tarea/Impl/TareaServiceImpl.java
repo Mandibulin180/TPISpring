@@ -114,7 +114,7 @@ public class TareaServiceImpl implements TareaService {
 
         if((estado!=null&&estado != Estado.COMPLETADA) && (fechaLimite!=null && fechaLimite.before(fechaActual))){
             for(TareaDTO tarea: listaDeTareas){
-                if(tarea.getEstado() != Estado.COMPLETADA && tarea.getFechaLimite().before(fechaActual)){
+                if(tarea.getEstado() != Estado.COMPLETADA && tarea.getFechaLimite().before(fechaActual) ){
                     listaDeTareasVencidas.add(tarea);
                 }
             }
@@ -122,7 +122,6 @@ public class TareaServiceImpl implements TareaService {
             return listaDeTareasVencidas;
         }
 
-        log.info("lista de tareas");
         return listaDeTareas;
     }
 
