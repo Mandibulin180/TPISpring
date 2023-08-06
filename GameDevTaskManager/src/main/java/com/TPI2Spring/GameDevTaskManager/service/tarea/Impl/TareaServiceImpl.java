@@ -20,10 +20,13 @@ import com.TPI2Spring.GameDevTaskManager.repository.DesarroladorRepository;
 import com.TPI2Spring.GameDevTaskManager.repository.JuegoRepository;
 import com.TPI2Spring.GameDevTaskManager.repository.TareaRepository;
 import com.TPI2Spring.GameDevTaskManager.service.tarea.TareaService;
+
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class TareaServiceImpl implements TareaService {
 
     final TareaMapper tareaMapper;
@@ -101,23 +104,25 @@ public class TareaServiceImpl implements TareaService {
 
     @Override
     public List<TareaDTO> searchTareaPorEstadoOFechaLimite(Estado estado,Date fechaLimite){
-        Optional<List<Tarea>> tareas = tareaRepository.findTareaByEstadoOrFechaLimite(estado, fechaLimite);
+        List<Tarea> tareas = tareaRepository.findTareaByEstadoOrFechaLimite(estado, fechaLimite);
         List<TareaDTO> listaDeTareas = new ArrayList<>();
         List<TareaDTO> listaDeTareasVencidas = new ArrayList<>();
         Date fechaActual = new Date();
-        for(Tarea tarea:tareas.get()){
+        for(Tarea tarea:tareas){
             listaDeTareas.add(tareaMapper.tareaToTareaDto(tarea));  
         }
 
-        if((estado!=null&&estado != Estado.COMPLETADA) && (fechaLimite!=null&&fechaLimite.before(fechaActual))){
+        if((estado!=null&&estado != Estado.COMPLETADA) && (fechaLimite!=null && fechaLimite.before(fechaActual))){
             for(TareaDTO tarea: listaDeTareas){
-                if(tarea.getEstado() != Estado.COMPLETADA){
+                if(tarea.getEstado() != Estado.COMPLETADA && tarea.getFechaLimite().before(fechaActual)){
                     listaDeTareasVencidas.add(tarea);
                 }
             }
+            
             return listaDeTareasVencidas;
         }
 
+        log.info("lista de tareas");
         return listaDeTareas;
     }
 

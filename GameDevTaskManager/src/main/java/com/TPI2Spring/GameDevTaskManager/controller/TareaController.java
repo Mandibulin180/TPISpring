@@ -1,5 +1,6 @@
 package com.TPI2Spring.GameDevTaskManager.controller;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,9 +27,12 @@ import com.TPI2Spring.GameDevTaskManager.model.dto.tarea.TareaUpdateDTO;
 import com.TPI2Spring.GameDevTaskManager.service.tarea.TareaService;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 @RestController
 @RequestMapping("/api/v1/tarea")
+@Slf4j
 public class TareaController {
     
     TareaService tareaService;
@@ -62,7 +66,8 @@ public class TareaController {
     }
 
     @GetMapping()
-    public ResponseEntity getTareaByEstadoOrFechaLimite(@RequestParam(required = false)Estado estado,@RequestParam(required = false)@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy") Date fechaLimite){
+    public ResponseEntity getTareaByEstadoOrFechaLimite(@RequestParam(required = false)Estado estado,@RequestParam(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaLimite){
+        // recibe yyyy-MM-dd
         List<TareaDTO> listaDeTareas = tareaService.searchTareaPorEstadoOFechaLimite(estado, fechaLimite);
         
         if(estado == null && fechaLimite == null){

@@ -13,6 +13,6 @@ import com.TPI2Spring.GameDevTaskManager.domain.Tarea;
 @Repository
 public interface TareaRepository extends JpaRepository<Tarea,UUID> {
 
-    Optional<List<Tarea>> findTareaByEstadoOrFechaLimite(Estado estado,Date fechaLimite);
+    List<Tarea> findTareaByEstadoOrFechaLimite(Estado estado,Date fechaLimite);
     Optional<List<Tarea>> findByJuegoDeLaTareaId(UUID idJuego);
 }
